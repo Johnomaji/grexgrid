@@ -13,9 +13,9 @@ export default function Ticker() {
     <div
       aria-hidden="true"
       style={{
-        background: 'var(--solar)',
+        background: 'var(--grid)',
         overflow: 'hidden',
-        padding: '0.85rem 0',
+        padding: '0.8rem 0',
         position: 'relative',
         zIndex: 2,
       }}
@@ -24,7 +24,7 @@ export default function Ticker() {
         style={{
           display: 'flex',
           gap: 0,
-          animation: 'ticker 30s linear infinite',
+          animation: 'ticker 35s linear infinite',
           width: 'max-content',
         }}
       >
@@ -36,7 +36,7 @@ export default function Ticker() {
               fontSize: 11,
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
-              color: 'var(--night)',
+              color: 'var(--grid-pale)',
               whiteSpace: 'nowrap',
               padding: '0 3rem',
               display: 'flex',
@@ -44,7 +44,7 @@ export default function Ticker() {
               gap: '1rem',
             }}
           >
-            <span style={{ fontSize: 7, opacity: 0.5 }}>◆</span>
+            <span style={{ fontSize: 6, opacity: 0.6, color: 'var(--grid-lt)' }}>◆</span>
             {item}
           </div>
         ))}

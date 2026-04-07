@@ -22,6 +22,19 @@
   --trading:    #E8A030;
   --offline:    #7A7870;
   --low:        #D4701A;
+
+  --radius-sm:   8px;
+  --radius-md:   16px;
+  --radius-lg:   24px;
+  --radius-xl:   32px;
+  --radius-pill: 999px;
+}
+
+/* ─── ANIMATABLE CSS PROPERTY (shimmer border) ──────────── */
+@property --gradient-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
 }
 
 /* ─── TAILWIND THEME MAPPING ────────────────────────────── */
@@ -51,7 +64,7 @@
 /* ─── SCROLLBAR ─────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--night); }
-::-webkit-scrollbar-thumb { background: var(--solar); }
+::-webkit-scrollbar-thumb { background: var(--solar); border-radius: 3px; }
 
 /* ─── BASE ──────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -67,28 +80,121 @@ body {
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; }
 
+/* ─── SHIMMER BORDER (featured pricing card) ─────────────── */
+.shimmer-border {
+  --gradient-angle: 0deg;
+  border: 2px solid transparent !important;
+  background:
+    linear-gradient(var(--night), var(--night)) padding-box,
+    conic-gradient(
+      from var(--gradient-angle),
+      var(--solar)       0%,
+      var(--solar-lt)   25%,
+      var(--grid-lt)    50%,
+      var(--solar-lt)   75%,
+      var(--solar)     100%
+    ) border-box !important;
+  animation: rotate-gradient 4s linear infinite;
+}
+
 /* ─── ANIMATIONS ────────────────────────────────────────── */
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.7); }
-}
 
-@keyframes orb-breathe {
-  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.8; }
-  50% { transform: scale(1.15) translate(20px, -20px); opacity: 1; }
-}
-
+/* Core entrance */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(32px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+@keyframes fade-left {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 
+/* Continuous */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.65); }
+}
+@keyframes orb-breathe {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.8; }
+  50%       { transform: scale(1.18) translate(20px, -20px); opacity: 1; }
+}
+@keyframes orb-breathe-slow {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.6; }
+  50%       { transform: scale(1.22) translate(-15px, 25px); opacity: 0.9; }
+}
 @keyframes ticker {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes float-2 {
+  0%, 100% { transform: translateY(-5px); }
+  50%       { transform: translateY(5px); }
+}
+@keyframes float-3 {
+  0%, 100% { transform: translateY(0px) rotate(-0.5deg); }
+  50%       { transform: translateY(-8px) rotate(0.5deg); }
+}
+@keyframes float-4 {
+  0%, 100% { transform: translateY(-3px); }
+  50%       { transform: translateY(7px); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
 
+/* Shimmer border */
+@keyframes rotate-gradient {
+  to { --gradient-angle: 360deg; }
+}
+
+/* Connector line draw-on */
+@keyframes draw-line {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Stat card flash when counter finishes */
+@keyframes count-flash {
+  0%   { opacity: 1; }
+  40%  { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+/* Badge bounce-in */
+@keyframes bounce-in {
+  0%   { opacity: 0; transform: scale(0.5); }
+  60%  { opacity: 1; transform: scale(1.08); }
+  80%  { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+
+/* Blink cursor */
 @keyframes blink {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  50%       { opacity: 0; }
+}
+
+/* Glow pulse */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 16px rgba(200,132,26,0.25); }
+  50%       { box-shadow: 0 0 40px rgba(200,132,26,0.55), 0 0 80px rgba(200,132,26,0.15); }
+}
+
+/* Live dot ripple */
+@keyframes ripple {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
 }

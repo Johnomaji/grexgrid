@@ -2,14 +2,25 @@
 
 import { useEffect, useRef, ReactNode } from 'react'
 
+type Variant = 'up' | 'left' | 'scale' | 'fade'
+
 interface Props {
   children: ReactNode
   delay?: number
   className?: string
   style?: React.CSSProperties
+  variant?: Variant
+  duration?: number
 }
 
-export default function RevealSection({ children, delay = 0, className = '', style }: Props) {
+export default function RevealSection({
+  children,
+  delay = 0,
+  className = '',
+  style,
+  variant = 'up',
+  duration = 700,
+}: Props) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -22,7 +33,7 @@ export default function RevealSection({ children, delay = 0, className = '', sty
           observer.unobserve(el)
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -31,19 +42,53 @@ export default function RevealSection({ children, delay = 0, className = '', sty
   return (
     <div
       ref={ref}
-      className={`reveal-item ${className}`}
-      style={{ transitionDelay: `${delay}ms`, ...style }}
+      className={`reveal-item reveal-${variant} ${className}`}
+      style={{ '--reveal-duration': `${duration}ms`, ...style } as React.CSSProperties}
     >
       {children}
       <style>{`
         .reveal-item {
-          opacity: 0;
-          transform: translateY(32px);
-          transition: opacity 0.7s ease, transform 0.7s ease;
+          transition-property: opacity, transform;
+          transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+          transition-duration: var(--reveal-duration, 700ms);
         }
-        .reveal-item.reveal-visible {
+
+        /* up */
+        .reveal-up {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        .reveal-up.reveal-visible {
           opacity: 1;
           transform: translateY(0);
+        }
+
+        /* left */
+        .reveal-left {
+          opacity: 0;
+          transform: translateX(-40px);
+        }
+        .reveal-left.reveal-visible {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        /* scale */
+        .reveal-scale {
+          opacity: 0;
+          transform: scale(0.88);
+        }
+        .reveal-scale.reveal-visible {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        /* fade */
+        .reveal-fade {
+          opacity: 0;
+        }
+        .reveal-fade.reveal-visible {
+          opacity: 1;
         }
       `}</style>
     </div>

@@ -17,6 +17,9 @@ const plans = [
     ],
     cta: 'Get started',
     featured: false,
+    accentColor: 'var(--grid)',
+    accentBg: 'rgba(26,122,82,0.06)',
+    checkColor: 'var(--grid)',
   },
   {
     badge: 'Most communities',
@@ -33,6 +36,9 @@ const plans = [
     ],
     cta: 'Talk to us about your community',
     featured: true,
+    accentColor: 'var(--solar)',
+    accentBg: 'rgba(200,132,26,0.08)',
+    checkColor: 'var(--solar)',
   },
   {
     badge: 'Governments · NGOs · Developers',
@@ -48,6 +54,9 @@ const plans = [
     ],
     cta: 'Access developer portal',
     featured: false,
+    accentColor: 'var(--grid-lt)',
+    accentBg: 'rgba(26,122,82,0.06)',
+    checkColor: 'var(--grid-lt)',
   },
 ]
 
@@ -56,211 +65,208 @@ export default function Pricing() {
     <section
       id="pricing"
       style={{
-        background: 'var(--parchment)',
+        background: 'var(--white)',
         padding: '8rem 4rem',
         color: 'var(--night)',
         position: 'relative',
         zIndex: 1,
       }}
     >
-      <div
-        className="pricing-intro"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '4rem',
-          alignItems: 'end',
-          marginBottom: 0,
-        }}
-      >
+      {/* Intro */}
+      <div className="pricing-intro" style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '4rem',
+        alignItems: 'end',
+        marginBottom: '4rem',
+      }}>
         <div>
-          <RevealSection>
-            <div
-              style={{
-                fontFamily: 'var(--ff-mono)',
-                fontSize: 10,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: 'var(--stone)',
-                marginBottom: '1.5rem',
-              }}
-            >
-              Access
+          <RevealSection variant="left">
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
+              background: 'rgba(122,80,16,0.08)',
+              border: '1px solid rgba(122,80,16,0.15)',
+              borderRadius: 'var(--radius-pill)',
+              padding: '0.4rem 1rem', marginBottom: '1.75rem',
+            }}>
+              <span style={{
+                fontFamily: 'var(--ff-mono)', fontSize: 10,
+                letterSpacing: '0.18em', textTransform: 'uppercase',
+                color: 'var(--solar-dk)',
+              }}>Access</span>
             </div>
           </RevealSection>
           <RevealSection delay={100}>
-            <h2
-              style={{
-                fontFamily: 'var(--ff-display)',
-                fontSize: 'clamp(36px, 5vw, 60px)',
-                fontWeight: 300,
-                lineHeight: 1.05,
-                color: 'var(--night)',
-              }}
-            >
+            <h2 style={{
+              fontFamily: 'var(--ff-display)',
+              fontSize: 'clamp(34px, 5vw, 64px)',
+              fontWeight: 300, lineHeight: 1.0,
+              color: 'var(--night)', letterSpacing: '-0.02em',
+            }}>
               Pay only for
               <br />
-              what you use.
+              <em style={{ color: 'var(--solar)', fontStyle: 'italic' }}>what you use</em>.
             </h2>
           </RevealSection>
         </div>
-        <RevealSection delay={200}>
-          <p
-            style={{
-              fontSize: 17,
-              lineHeight: 1.75,
-              color: 'var(--stone)',
-              fontWeight: 300,
-              maxWidth: 440,
-            }}
-          >
+        <RevealSection delay={200} variant="fade">
+          <p style={{
+            fontSize: 17, lineHeight: 1.8,
+            color: 'var(--stone)', fontWeight: 300, maxWidth: 440,
+          }}>
             No upfront infrastructure cost for communities. No hidden fees. No locked-in
             contracts. If GrēxGrid doesn&apos;t deliver value — the model breaks, and we know it.
           </p>
         </RevealSection>
       </div>
 
-      <div
-        className="pricing-grid"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 2,
-          marginTop: '4rem',
-        }}
-      >
-        {plans.map(({ badge, name, amount, per, features, cta, featured }, i) => (
-          <RevealSection key={name} delay={i * 100}>
+      {/* Cards */}
+      <div className="pricing-grid" style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '1.25rem',
+        alignItems: 'start',
+      }}>
+        {plans.map(({ badge, name, amount, per, features, cta, featured, accentColor, accentBg, checkColor }, i) => (
+          <RevealSection key={name} delay={i * 120} variant={i === 1 ? 'scale' : 'up'}>
             <div
+              className={featured ? 'shimmer-border' : ''}
               style={{
-                background: featured ? 'var(--night)' : 'var(--white)',
-                padding: '2.5rem 2rem',
-                borderTop: `2px solid ${featured ? 'var(--solar)' : 'transparent'}`,
-                transition: 'transform 0.3s',
+                background: featured ? 'var(--night)' : 'var(--parchment)',
+                border: featured ? undefined : '1px solid rgba(196,192,180,0.4)',
+                borderRadius: 'var(--radius-xl)',
+                padding: featured ? '2.75rem 2.25rem' : '2.5rem 2.25rem',
+                display: 'flex', flexDirection: 'column',
                 height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
+                transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s',
+                boxShadow: featured ? '0 0 60px rgba(200,132,26,0.15)' : 'none',
+                position: 'relative', overflow: 'hidden',
+                marginTop: featured ? '-1rem' : undefined,
               }}
-              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)')}
-              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.transform = 'translateY(0)')}
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLElement
+                el.style.transform = 'translateY(-8px)'
+                el.style.boxShadow = featured
+                  ? '0 24px 64px rgba(200,132,26,0.25)'
+                  : '0 20px 60px rgba(15,20,16,0.12)'
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLElement
+                el.style.transform = 'translateY(0)'
+                el.style.boxShadow = featured ? '0 0 60px rgba(200,132,26,0.15)' : 'none'
+              }}
             >
-              <div
-                style={{
-                  fontFamily: 'var(--ff-mono)',
-                  fontSize: 9,
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  color: 'var(--solar)',
-                  marginBottom: '1rem',
-                }}
-              >
-                {badge}
+              {/* "Popular" label for featured */}
+              {featured && (
+                <div style={{
+                  position: 'absolute', top: 20, right: 20,
+                  background: 'var(--solar)',
+                  color: 'var(--night)',
+                  fontFamily: 'var(--ff-mono)', fontSize: 9,
+                  letterSpacing: '0.12em', textTransform: 'uppercase',
+                  padding: '4px 10px',
+                  borderRadius: 'var(--radius-pill)',
+                  fontWeight: 600,
+                }}>Popular</div>
+              )}
+
+              {/* Badge */}
+              <div style={{ display: 'inline-flex', marginBottom: '1.25rem' }}>
+                <span style={{
+                  fontFamily: 'var(--ff-mono)', fontSize: 9,
+                  letterSpacing: '0.12em', textTransform: 'uppercase',
+                  color: accentColor,
+                  background: featured ? 'rgba(200,132,26,0.12)' : accentBg,
+                  border: `1px solid ${featured ? 'rgba(200,132,26,0.2)' : 'rgba(26,122,82,0.2)'}`,
+                  borderRadius: 'var(--radius-pill)',
+                  padding: '4px 10px',
+                }}>{badge}</span>
               </div>
-              <div
-                style={{
-                  fontFamily: 'var(--ff-display)',
-                  fontSize: 26,
-                  fontWeight: 400,
-                  color: featured ? 'var(--white)' : 'var(--night)',
-                  marginBottom: '0.25rem',
-                }}
-              >
-                {name}
+
+              <div style={{
+                fontFamily: 'var(--ff-display)', fontSize: 28, fontWeight: 400,
+                color: featured ? 'var(--white)' : 'var(--night)',
+                marginBottom: '0.5rem',
+              }}>{name}</div>
+
+              <div style={{
+                display: 'flex', alignItems: 'baseline', gap: '0.25rem',
+                margin: '1rem 0 0.25rem',
+              }}>
+                <span style={{
+                  fontFamily: 'var(--ff-mono)', fontSize: 52, fontWeight: 500,
+                  color: accentColor, lineHeight: 1, letterSpacing: '-0.02em',
+                }}>{amount}</span>
               </div>
-              <div
-                style={{
-                  fontFamily: 'var(--ff-mono)',
-                  fontSize: 44,
-                  fontWeight: 500,
-                  color: 'var(--solar)',
-                  lineHeight: 1,
-                  margin: '0.75rem 0 0.25rem',
-                }}
-              >
-                {amount}
-              </div>
-              <div
-                style={{
-                  fontSize: 12,
-                  color: 'var(--stone)',
-                  marginBottom: '2rem',
-                }}
-              >
-                {per}
-              </div>
-              <ul
-                style={{
-                  listStyle: 'none',
-                  marginBottom: '2rem',
-                  flex: 1,
-                }}
-              >
+
+              <div style={{
+                fontSize: 12, color: 'var(--stone)', marginBottom: '2rem',
+                fontFamily: 'var(--ff-mono)',
+              }}>{per}</div>
+
+              {/* Divider */}
+              <div style={{
+                height: 1,
+                background: featured
+                  ? 'rgba(196,192,180,0.1)'
+                  : 'rgba(122,122,114,0.2)',
+                marginBottom: '1.5rem',
+              }} />
+
+              {/* Features */}
+              <ul style={{ listStyle: 'none', marginBottom: '2rem', flex: 1 }}>
                 {features.map(f => (
-                  <li
-                    key={f}
-                    style={{
-                      fontSize: 13,
-                      color: featured ? 'var(--dust)' : 'var(--stone)',
-                      padding: '0.5rem 0',
-                      borderBottom: `0.5px solid ${featured ? 'var(--mid)' : 'var(--dust)'}`,
-                      display: 'flex',
-                      gap: '0.75rem',
-                      alignItems: 'flex-start',
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: featured ? 'var(--solar)' : 'var(--grid)',
-                        fontFamily: 'var(--ff-mono)',
-                        fontSize: 11,
-                        flexShrink: 0,
-                        marginTop: 2,
-                      }}
-                    >
-                      —
-                    </span>
+                  <li key={f} style={{
+                    fontSize: 13,
+                    color: featured ? 'var(--dust)' : 'var(--stone)',
+                    padding: '0.55rem 0',
+                    borderBottom: `1px solid ${featured ? 'rgba(196,192,180,0.07)' : 'rgba(196,192,180,0.22)'}`,
+                    display: 'flex', gap: '0.75rem', alignItems: 'flex-start',
+                  }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                      stroke={checkColor} strokeWidth="2.5" strokeLinecap="round"
+                      style={{ flexShrink: 0, marginTop: 2 }}>
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
                     {f}
                   </li>
                 ))}
               </ul>
+
+              {/* CTA */}
               <a
                 href="#manifesto"
                 style={{
-                  display: 'block',
-                  textAlign: 'center',
-                  width: '100%',
-                  padding: '0.875rem',
-                  fontFamily: 'var(--ff-body)',
-                  fontSize: 13,
-                  fontWeight: 500,
-                  letterSpacing: '0.06em',
+                  display: 'block', textAlign: 'center',
+                  padding: '0.9rem 1.5rem',
+                  fontFamily: 'var(--ff-body)', fontSize: 13, fontWeight: 600,
+                  letterSpacing: '0.05em',
                   cursor: 'pointer',
-                  transition: 'all 0.2s',
+                  transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+                  borderRadius: 'var(--radius-pill)',
                   background: featured ? 'var(--solar)' : 'transparent',
-                  color: featured ? 'var(--night)' : 'var(--stone)',
-                  border: featured ? 'none' : '0.5px solid var(--dust)',
+                  color: featured ? 'var(--night)' : accentColor,
+                  border: featured ? 'none' : `1px solid ${accentColor}`,
+                  boxShadow: featured ? '0 4px 16px rgba(200,132,26,0.3)' : 'none',
                 }}
                 onMouseEnter={e => {
-                  const el = e.currentTarget
+                  const el = e.currentTarget as HTMLAnchorElement
+                  el.style.transform = 'translateY(-2px)'
                   if (featured) {
                     el.style.background = 'var(--solar-lt)'
+                    el.style.boxShadow = '0 8px 28px rgba(200,132,26,0.45)'
                   } else {
-                    el.style.borderColor = 'var(--solar)'
-                    el.style.color = 'var(--solar)'
+                    el.style.background = accentBg
+                    el.style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'
                   }
                 }}
                 onMouseLeave={e => {
-                  const el = e.currentTarget
-                  if (featured) {
-                    el.style.background = 'var(--solar)'
-                  } else {
-                    el.style.borderColor = 'var(--dust)'
-                    el.style.color = 'var(--stone)'
-                  }
+                  const el = e.currentTarget as HTMLAnchorElement
+                  el.style.transform = 'translateY(0)'
+                  el.style.background = featured ? 'var(--solar)' : 'transparent'
+                  el.style.boxShadow = featured ? '0 4px 16px rgba(200,132,26,0.3)' : 'none'
                 }}
-              >
-                {cta}
-              </a>
+              >{cta}</a>
             </div>
           </RevealSection>
         ))}
@@ -268,8 +274,13 @@ export default function Pricing() {
 
       <style>{`
         @media (max-width: 900px) {
-          .pricing-intro { grid-template-columns: 1fr !important; }
-          .pricing-grid { grid-template-columns: 1fr !important; }
+          .pricing-intro { grid-template-columns: 1fr !important; gap: 2rem !important; }
+          .pricing-grid  { grid-template-columns: 1fr !important; }
+          .pricing-grid > div { margin-top: 0 !important; }
+          #pricing       { padding: 5rem 1.5rem !important; }
+        }
+        @media (max-width: 500px) {
+          #pricing { padding: 4rem 1.25rem !important; }
         }
       `}</style>
     </section>
