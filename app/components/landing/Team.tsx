@@ -1,14 +1,15 @@
 'use client'
 
+import Image from 'next/image'
 import RevealSection from './RevealSection'
 
 const members = [
-  { initials: 'CO', role: 'Chief Technology Officer',   name: 'Chidubem Okafor',   desc: 'Architect of the GrēxGrid core platform. Former backend lead at a Lagos fintech unicorn, Chidubem designs the distributed systems that keep every node in sync — and every transaction on record.', color: 'var(--solar)' },
-  { initials: 'FT', role: 'Head of Hardware Engineering', name: 'Femi Taiwo',         desc: 'Lead engineer behind GrēxBox — solar inverter systems that survive the harmattan, flooding season, and power surges. Femi has designed off-grid systems deployed across West Africa.', color: 'var(--grid-lt)' },
-  { initials: 'AN', role: 'Head of AI & Data Science',  name: 'Adaora Nwachukwu',   desc: 'The intelligence behind GrēxSense. Adaora builds the forecasting models that predict faults, optimise trading windows, and learn from every watt generated across the network.', color: 'var(--live)' },
-  { initials: 'EI', role: 'Head of Product Design',     name: 'Emeka Ikenna-Eze',   desc: 'Ensures that GrēxGrid works for the field engineer at 3am and the grandmother on a feature phone. Emeka designs for real contexts — not ideal users in ideal conditions.', color: 'var(--solar-lt)' },
-  { initials: 'ZA', role: 'Head of Community Operations', name: 'Zainab Aliyu',      desc: 'GrēxGrid\'s bridge to the communities it serves. Zainab leads deployment readiness, local energy manager training, and the feedback loops that keep product and reality aligned.', color: 'var(--grid-lt)' },
-  { initials: 'SO', role: 'Lead Full-Stack Engineer',   name: 'Segun Olawale',      desc: 'Builds the GrēxConnect API layer and developer portal. Segun makes GrēxGrid\'s data legible and composable — for governments, NGOs, and builders who want to plug into the network.', color: 'var(--solar)' },
+  { img: '/team-member-2.jpg', role: 'Chief Technology Officer',     name: 'Chidubem Okafor',   desc: 'Architect of the GrēxGrid core platform. Former backend lead at a Lagos fintech unicorn, Chidubem designs the distributed systems that keep every node in sync — and every transaction on record.', color: 'var(--solar)' },
+  { img: '/team-member-1.jpg', role: 'Head of Hardware Engineering', name: 'Femi Taiwo',         desc: 'Lead engineer behind GrēxBox — solar inverter systems that survive the harmattan, flooding season, and power surges. Femi has designed off-grid systems deployed across West Africa.', color: 'var(--grid-lt)' },
+  { img: '/team-member-4.jpg', role: 'Head of AI & Data Science',    name: 'Adaora Nwachukwu',  desc: 'The intelligence behind GrēxSense. Adaora builds the forecasting models that predict faults, optimise trading windows, and learn from every watt generated across the network.', color: 'var(--live)' },
+  { img: '/team-member-3.jpg', role: 'Head of Product Design',       name: 'Emeka Ikenna-Eze',  desc: 'Ensures that GrēxGrid works for the field engineer at 3am and the grandmother on a feature phone. Emeka designs for real contexts — not ideal users in ideal conditions.', color: 'var(--solar-lt)' },
+  { img: '/team-member-5.jpg', role: 'Head of Community Operations', name: 'Zainab Aliyu',       desc: 'GrēxGrid\'s bridge to the communities it serves. Zainab leads deployment readiness, local energy manager training, and the feedback loops that keep product and reality aligned.', color: 'var(--grid-lt)' },
+  { img: '/team-member-6.jpg', role: 'Lead Full-Stack Engineer',     name: 'Segun Olawale',      desc: 'Builds the GrēxConnect API layer and developer portal. Segun makes GrēxGrid\'s data legible and composable — for governments, NGOs, and builders who want to plug into the network.', color: 'var(--solar)' },
 ]
 
 export default function Team() {
@@ -100,14 +101,18 @@ export default function Team() {
             <div style={{
               width: '100%', aspectRatio: '1',
               borderRadius: 'var(--radius-xl)',
-              background: 'radial-gradient(135deg, rgba(46,52,47,0.8) 0%, rgba(15,20,16,0.9) 100%)',
               border: '1px solid rgba(200,132,26,0.2)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              overflow: 'hidden',
+              position: 'relative',
             }}>
-              <span style={{
-                fontFamily: 'var(--ff-display)', fontSize: 64, fontWeight: 300,
-                color: 'var(--solar)', letterSpacing: '-0.02em', lineHeight: 1,
-              }}>MOA</span>
+              <Image
+                src="/team.jpg"
+                alt="Mercy Ogey Agbinya"
+                fill
+                style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                sizes="(max-width: 900px) 100vw, 400px"
+                priority
+              />
             </div>
             <div>
               <div style={{
@@ -154,7 +159,7 @@ export default function Team() {
         </RevealSection>
 
         {/* Team members */}
-        {members.map(({ initials, role, name, desc, color }, i) => (
+        {members.map(({ img, role, name, desc, color }, i) => (
           <RevealSection key={name} delay={(i + 1) * 80} variant="up">
             <div
               style={{
@@ -181,13 +186,21 @@ export default function Team() {
               }}
             >
               <div style={{
-                width: 44, height: 44, borderRadius: '50%',
-                background: 'rgba(46,52,47,0.6)',
+                width: 64, height: 64, borderRadius: '50%',
                 border: `2px solid ${color}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontFamily: 'var(--ff-mono)', fontSize: 13, color,
-                marginBottom: '1.25rem', fontWeight: 500,
-              }}>{initials}</div>
+                overflow: 'hidden',
+                marginBottom: '1.25rem',
+                flexShrink: 0,
+                position: 'relative',
+              }}>
+                <Image
+                  src={img}
+                  alt={name}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="64px"
+                />
+              </div>
               <div style={{
                 fontFamily: 'var(--ff-mono)', fontSize: 9,
                 letterSpacing: '0.14em', textTransform: 'uppercase',
