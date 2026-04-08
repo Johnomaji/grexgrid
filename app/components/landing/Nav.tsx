@@ -137,7 +137,8 @@ export default function Nav() {
 
         {/* CTA */}
         <a
-          href="#manifesto"
+          href="/get-started"
+          className="nav-desktop-cta"
           style={{
             background: 'var(--solar)',
             color: 'var(--night)',
@@ -176,7 +177,7 @@ export default function Nav() {
             color: 'var(--white)',
             cursor: 'pointer',
             padding: '0.4rem',
-            marginLeft: '0.5rem',
+            marginLeft: '10rem',
           }}
           aria-label="Toggle menu"
         >
@@ -247,7 +248,7 @@ export default function Nav() {
             </a>
           ))}
           <a
-            href="#manifesto"
+            href="/get-started"
             onClick={() => setMobileOpen(false)}
             style={{
               background: 'var(--solar)',
@@ -273,6 +274,7 @@ export default function Nav() {
           .nav-links-list { display: none !important; }
           .nav-divider { display: none !important; }
           .nav-hamburger { display: block !important; }
+          .nav-desktop-cta { display: none !important; }
           .main-nav { left: 16px !important; right: 16px !important; transform: none !important; padding: 0.6rem 0.6rem 0.6rem 1.25rem !important; }
         }
       `}</style>

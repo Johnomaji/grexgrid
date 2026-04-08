@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import RevealSection from './RevealSection'
+import TiltCard from './TiltCard'
 
 const steps = [
   {
@@ -154,64 +155,7 @@ export default function HowItWorks() {
 
         {steps.map(({ num, title, body, color, colorBg }, i) => (
           <RevealSection key={num} delay={i * 130} variant="up">
-            <div
-              style={{
-                background: 'var(--white)',
-                border: '1px solid rgba(196,192,180,0.35)',
-                borderRadius: 'var(--radius-lg)',
-                padding: '2.5rem 2rem',
-                position: 'relative',
-                height: '100%',
-                zIndex: 1,
-                transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s, border-color 0.3s, background 0.3s',
-              }}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLElement
-                el.style.transform = 'translateY(-8px)'
-                el.style.boxShadow = '0 20px 60px rgba(15,20,16,0.14)'
-                el.style.borderColor = color
-                el.style.background = colorBg
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLElement
-                el.style.transform = 'translateY(0)'
-                el.style.boxShadow = 'none'
-                el.style.borderColor = 'rgba(196,192,180,0.35)'
-                el.style.background = 'var(--white)'
-              }}
-            >
-              {/* Numbered badge */}
-              <div style={{
-                width: 48, height: 48,
-                borderRadius: '50%',
-                background: colorBg,
-                border: `2px solid ${color}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                marginBottom: '1.75rem',
-              }}>
-                <span style={{
-                  fontFamily: 'var(--ff-mono)', fontSize: 13,
-                  fontWeight: 500, color, lineHeight: 1,
-                }}>{num}</span>
-              </div>
-
-              <div style={{
-                fontFamily: 'var(--ff-display)', fontSize: 22,
-                fontWeight: 400, color: 'var(--night)',
-                marginBottom: '0.75rem', lineHeight: 1.2,
-              }}>{title}</div>
-
-              <div style={{ fontSize: 13, lineHeight: 1.8, color: 'var(--stone)' }}>{body}</div>
-
-              {/* Bottom accent that grows on hover */}
-              <div style={{
-                position: 'absolute', bottom: 0, left: 0, right: 0, height: 3,
-                borderRadius: '0 0 var(--radius-lg) var(--radius-lg)',
-                background: `linear-gradient(to right, ${color}, transparent)`,
-                opacity: 0,
-                transition: 'opacity 0.4s',
-              }} className={`step-bottom-${i}`} />
-            </div>
+            <StepCard num={num} title={title} body={body} color={color} colorBg={colorBg} index={i} />
           </RevealSection>
         ))}
       </div>
@@ -229,5 +173,70 @@ export default function HowItWorks() {
         }
       `}</style>
     </section>
+  )
+}
+
+function StepCard({ num, title, body, color, colorBg, index }: {
+  num: string; title: string; body: string;
+  color: string; colorBg: string; index: number;
+}) {
+  const [hovered, setHovered] = useState(false)
+  const rgb = color === 'var(--solar)' ? '200,132,26'
+    : color === 'var(--solar-lt)' ? '245,212,154'
+    : color === 'var(--grid-lt)' ? '158,223,192'
+    : '46,201,138'
+
+  return (
+    <TiltCard
+      glowColor={rgb}
+      tiltMax={6}
+      particleCount={7}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+      style={{
+        background: hovered ? colorBg : 'var(--white)',
+        border: `1px solid ${hovered ? color : 'rgba(196,192,180,0.35)'}`,
+        borderRadius: 'var(--radius-lg)',
+        padding: '2.5rem 2rem',
+        height: '100%',
+        boxShadow: hovered ? '0 20px 60px rgba(15,20,16,0.14)' : 'none',
+        transition: 'background 0.3s, border-color 0.3s, box-shadow 0.4s',
+        zIndex: 1,
+      }}
+    >
+      {/* Numbered badge */}
+      <div style={{
+        width: 48, height: 48,
+        borderRadius: '50%',
+        background: colorBg,
+        border: `2px solid ${color}`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        marginBottom: '1.75rem',
+        flexShrink: 0,
+      }}>
+        <span style={{
+          fontFamily: 'var(--ff-mono)', fontSize: 13,
+          fontWeight: 500, color, lineHeight: 1,
+        }}>{num}</span>
+      </div>
+
+      <div style={{
+        fontFamily: 'var(--ff-display)', fontSize: 22,
+        fontWeight: 400, color: 'var(--night)',
+        marginBottom: '0.75rem', lineHeight: 1.2,
+      }}>{title}</div>
+
+      <div style={{ fontSize: 13, lineHeight: 1.8, color: 'var(--stone)' }}>{body}</div>
+
+      {/* Bottom accent */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, height: 3,
+        borderRadius: '0 0 var(--radius-lg) var(--radius-lg)',
+        background: `linear-gradient(to right, ${color}, transparent)`,
+        opacity: hovered ? 1 : 0,
+        transition: 'opacity 0.4s',
+        pointerEvents: 'none',
+      }} />
+    </TiltCard>
   )
 }

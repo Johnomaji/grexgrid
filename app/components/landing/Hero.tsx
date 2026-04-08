@@ -1,6 +1,7 @@
 'use client'
 
 import CountUp from './CountUp'
+import ScrambledText from './ScrambledText'
 
 const stats = [
   { val: '847',   label: 'Households connected',    color: 'var(--solar)',    floatAnim: 'float   5.5s ease-in-out infinite' },
@@ -61,7 +62,7 @@ export default function Hero() {
           background: 'rgba(200,132,26,0.1)',
           border: '1px solid rgba(200,132,26,0.25)',
           borderRadius: 'var(--radius-pill)',
-          padding: '0.4rem 1.1rem',
+          padding: '0.1rem 0.5rem',
           marginBottom: '2.5rem',
           opacity: 0,
           animation: 'bounce-in 0.6s 0.2s cubic-bezier(0.16,1,0.3,1) forwards',
@@ -111,23 +112,28 @@ export default function Hero() {
           animation: 'fade-up 0.9s 0.4s cubic-bezier(0.16,1,0.3,1) forwards',
         }}
       >
-        Your community.
+        <ScrambledText delay={500} duration={700} scrambleChars=".:#@!ABCDEFabcdef">Your community.</ScrambledText>
         <br />
-        Your{' '}
+        <ScrambledText delay={900} duration={600} scrambleChars=".:#@!ABCDEFabcdef">Your </ScrambledText>
         <em style={{
           fontStyle: 'italic',
           color: 'transparent',
           backgroundImage: 'linear-gradient(135deg, var(--solar) 0%, var(--solar-lt) 100%)',
           WebkitBackgroundClip: 'text',
           backgroundClip: 'text',
-        }}>grid</em>.
+        }}>
+          <ScrambledText delay={1100} duration={500} scrambleChars=".:#@!ABCDEFabcdef">grid</ScrambledText>
+        </em>
+        <ScrambledText delay={1350} duration={200} scrambleChars=".:#@!">.</ScrambledText>
         <br />
         <span style={{
           color: 'transparent',
           backgroundImage: 'linear-gradient(135deg, var(--grid-lt) 0%, var(--live) 100%)',
           WebkitBackgroundClip: 'text',
           backgroundClip: 'text',
-        }}>Your power.</span>
+        }}>
+          <ScrambledText delay={1400} duration={700} scrambleChars=".:#@!ABCDEFabcdef">Your power.</ScrambledText>
+        </span>
       </h1>
 
       {/* Subtitle */}
@@ -162,7 +168,7 @@ export default function Hero() {
         }}
       >
         <a
-          href="#manifesto"
+          href="/get-started"
           style={{
             background: 'var(--solar)',
             color: 'var(--night)',
@@ -300,7 +306,7 @@ export default function Hero() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '0.5rem',
+          gap: '0.2rem',
           opacity: 0,
           animation: 'fade-in 1s 1.6s forwards',
         }}

@@ -1,6 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import RevealSection from './RevealSection'
+import TiltCard from './TiltCard'
 
 const products = [
   {
@@ -191,10 +193,18 @@ function BentoCard({
   tag: string; name: string; desc: string; icon: React.ReactNode;
   color: string; colorBg: string; featured: boolean;
 }) {
+  const [hovered, setHovered] = useState(false)
+  // Derive RGB for TiltCard glowColor from the card's accent
+  const rgb = color === 'var(--solar)' ? '200,132,26' : '26,122,82'
+
   return (
-    <div
+    <TiltCard
+      glowColor={rgb}
+      particleCount={featured ? 12 : 8}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
       style={{
-        background: 'rgba(26,31,27,0.85)',
+        background: hovered ? colorBg : 'rgba(26,31,27,0.85)',
         border: `1px solid rgba(196,192,180,0.07)`,
         borderTop: `2px solid ${color}`,
         borderRadius: 'var(--radius-lg)',
@@ -203,24 +213,13 @@ function BentoCard({
         display: 'flex',
         flexDirection: 'column',
         gap: featured ? '1.5rem' : '1rem',
-        transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s, background 0.3s',
+        boxShadow: hovered ? '0 24px 64px rgba(0,0,0,0.35)' : 'none',
         cursor: 'pointer',
         minHeight: featured ? 380 : undefined,
-      }}
-      onMouseEnter={e => {
-        const el = e.currentTarget as HTMLElement
-        el.style.transform = 'translateY(-6px)'
-        el.style.boxShadow = '0 20px 60px rgba(0,0,0,0.3)'
-        el.style.background = colorBg
-      }}
-      onMouseLeave={e => {
-        const el = e.currentTarget as HTMLElement
-        el.style.transform = 'translateY(0)'
-        el.style.boxShadow = 'none'
-        el.style.background = 'rgba(26,31,27,0.85)'
+        transition: 'background 0.3s, box-shadow 0.4s',
       }}
     >
-      <div style={{ color, opacity: 0.9, transition: 'transform 0.3s' }}>{icon}</div>
+      <div style={{ color, opacity: 0.9 }}>{icon}</div>
       <div>
         <div style={{
           fontFamily: 'var(--ff-mono)', fontSize: 9, color,
@@ -252,6 +251,6 @@ function BentoCard({
           </svg>
         </div>
       )}
-    </div>
+    </TiltCard>
   )
 }

@@ -89,7 +89,7 @@ export default function Manifesto() {
             marginBottom: '3.5rem',
           }}>
             <a
-              href="mailto:hello@grexgrid.ng"
+              href="/get-started"
               style={{
                 background: 'var(--solar)',
                 color: 'var(--night)',
