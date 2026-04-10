@@ -1,7 +1,73 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import CountUp from './CountUp'
 import ScrambledText from './ScrambledText'
+
+const BRAND_TEXT = 'GrexGrid by GREXA RENEWABLES LTD'
+
+function TypewriterLabel() {
+  const [displayed, setDisplayed] = useState('')
+  const [done, setDone] = useState(false)
+
+  useEffect(() => {
+    let i = 0
+    const tick = setInterval(() => {
+      i++
+      setDisplayed(BRAND_TEXT.slice(0, i))
+      if (i >= BRAND_TEXT.length) {
+        clearInterval(tick)
+        setDone(true)
+      }
+    }, 55)
+    return () => clearInterval(tick)
+  }, [])
+
+  return (
+    <div
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '0.75rem',
+        marginBottom: '2.5rem',
+        opacity: 0,
+        animation: 'fade-in 0.4s 0.1s forwards',
+      }}
+    >
+      {/* Accent bar */}
+      <span style={{
+        display: 'block',
+        width: 2,
+        height: 14,
+        background: 'var(--solar)',
+        borderRadius: 2,
+        flexShrink: 0,
+      }} />
+      <span style={{
+        fontFamily: 'var(--ff-mono)',
+        fontSize: 11,
+        letterSpacing: '0.2em',
+        textTransform: 'uppercase',
+        color: 'var(--solar)',
+        whiteSpace: 'nowrap',
+      }}>
+        {displayed}
+        {/* blinking cursor — hides when done typing */}
+        <span style={{
+          display: 'inline-block',
+          width: 1.5,
+          height: '0.9em',
+          background: 'var(--solar)',
+          marginLeft: 3,
+          verticalAlign: 'text-bottom',
+          animation: done ? 'none' : 'cursor-blink 0.8s step-end infinite',
+          opacity: done ? 0 : 1,
+          transition: 'opacity 0.4s 0.8s',
+        }} />
+      </span>
+    </div>
+  )
+}
 
 const stats = [
   { val: '847',   label: 'Households connected',    color: 'var(--solar)',    floatAnim: 'float   5.5s ease-in-out infinite' },
@@ -53,49 +119,7 @@ export default function Hero() {
         pointerEvents: 'none',
       }} />
 
-      {/* Tag badge */}
-      <div
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '0.6rem',
-          background: 'rgba(200,132,26,0.1)',
-          border: '1px solid rgba(200,132,26,0.25)',
-          borderRadius: 'var(--radius-pill)',
-          padding: '0.1rem 0.5rem',
-          marginBottom: '2.5rem',
-          opacity: 0,
-          animation: 'bounce-in 0.6s 0.2s cubic-bezier(0.16,1,0.3,1) forwards',
-        }}
-      >
-        {/* Live ripple dot */}
-        <span style={{ position: 'relative', width: 8, height: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <span style={{
-            position: 'absolute',
-            width: 8, height: 8,
-            borderRadius: '50%',
-            background: 'var(--solar)',
-            animation: 'ripple 1.6s ease-out infinite',
-          }} />
-          <span style={{
-            width: 6, height: 6,
-            borderRadius: '50%',
-            background: 'var(--solar)',
-            display: 'block',
-            position: 'relative',
-            zIndex: 1,
-          }} />
-        </span>
-        <span style={{
-          fontFamily: 'var(--ff-mono)',
-          fontSize: 10,
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
-          color: 'var(--solar)',
-        }}>
-          Lagos, Nigeria · Clean Energy · AI · Community
-        </span>
-      </div>
+      <TypewriterLabel />
 
       {/* Headline */}
       <h1
@@ -327,6 +351,10 @@ export default function Hero() {
       </div>
 
       <style>{`
+        @keyframes cursor-blink {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0; }
+        }
         @media (max-width: 600px) {
           #hero { padding: 6rem 1.25rem 4rem !important; }
           .hero-stats { gap: 0.75rem !important; }
