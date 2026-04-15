@@ -9,8 +9,10 @@ const BRAND_TEXT = 'GrexGrid by GREXA RENEWABLES LTD'
 function TypewriterLabel() {
   const [displayed, setDisplayed] = useState('')
   const [done, setDone] = useState(false)
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
+    setVisible(true)
     let i = 0
     const tick = setInterval(() => {
       i++
@@ -30,8 +32,8 @@ function TypewriterLabel() {
         alignItems: 'center',
         gap: '0.75rem',
         marginBottom: '2.5rem',
-        opacity: 0,
-        animation: 'fade-in 0.4s 0.1s forwards',
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 0.4s 0.1s',
       }}
     >
       {/* Accent bar */}

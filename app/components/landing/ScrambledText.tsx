@@ -21,11 +21,7 @@ export default function ScrambledText({
   style,
   className,
 }: ScrambledTextProps) {
-  const [chars, setChars] = useState<string[]>(() =>
-    children.split('').map(c =>
-      c === ' ' ? ' ' : scrambleChars[Math.floor(Math.random() * scrambleChars.length)]
-    )
-  )
+  const [chars, setChars] = useState<string[]>(() => children.split(''))
   const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
