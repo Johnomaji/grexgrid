@@ -7,7 +7,7 @@ import ScrambledText from '../components/landing/ScrambledText'
 import GridCanvas from '../components/landing/GridCanvas'
 
 /* ── Contact details ─────────────────────────────────── */
-const EMAIL = 'mercy@grexgrid.net'
+const EMAIL = 'contact@grexgrid.net'
 const PHONE = '+234 815 648 8474'
 const WEBSITE = 'https://www.grexgrid.net'
 
