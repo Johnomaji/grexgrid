@@ -65,11 +65,11 @@ export default function Footer() {
             <br />
             +234 815 648 8474<br />
             <a
-              href="mailto:mercy@grexgrid.net"
+              href="mailto:contact@grexgrid.net"
               style={{ color: 'rgba(200,132,26,0.65)', transition: 'color 0.2s' }}
               onMouseEnter={e => ((e.target as HTMLElement).style.color = 'var(--solar)')}
               onMouseLeave={e => ((e.target as HTMLElement).style.color = 'rgba(200,132,26,0.65)')}
-            >mercy@grexgrid.net</a><br />
+            >contact@grexgrid.net</a><br />
             <br />
             Director: Mercy Ogey Agbinya
           </div>
